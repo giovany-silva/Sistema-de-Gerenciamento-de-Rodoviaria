@@ -1,20 +1,49 @@
 var express = require('express');
 var router = express.Router();
 
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-/* GET home page. */
+/* GET menu. */
 router.get('/menu', function(req, res, next) {
   res.render('menu');
 });
 
-/* GET home page. */
+/* GET funcionario. */
 router.get('/funcionario', function(req, res, next) {
   res.render('funcionario');
+});
+
+/* GET verificaPassagem. */
+router.get('/verificaPassagem', function(req, res, next) {
+  res.render('verificaPassagem');
+});
+
+/* GET verificaPassagem. */
+router.get('/verificaData', function(req, res, next) {
+  res.render('verificaData');
+});
+
+/* GET onibus. */
+router.get('/onibus', function(req, res, next) {
+  res.render('onibus');
+});
+
+/* GET rota. */
+router.get('/rotas', function(req, res, next) {
+  res.render('rotas');
+});
+
+/* GET passagem page. */
+router.get('/passagem', function(req, res, next) {
+  res.render('passagem');
+});
+
+/* GET passagem page. */
+router.get('/empresas', function(req, res, next) {
+  res.render('empresas');
 });
 
 /* GET userlist page. */
@@ -27,6 +56,45 @@ router.get('/funcionariolist', function(req, res) {
        });
 });
 
+/* GET onibuslist page. */
+router.get('/onibuslist', function(req, res) {
+  var db = require("../db");
+  var Oni = db.Mongoose.model('onibuscollection', db.OnibusSchema, 'onibuscollection');
+  Oni.find({}).lean().exec(
+     function (e, docs) {
+         res.render('onibuslist', { "onibuslist": docs });
+     });
+});
+
+/* GET rotalist page. */
+router.get('/rotalist', function(req, res) {
+  var db = require("../db");
+  var Rota = db.Mongoose.model('rotacollection', db.RotaSchema, 'rotacollection');
+  Rota.find({}).lean().exec(
+     function (e, docs) {
+         res.render('rotalist', { "rotalist": docs });
+     });
+});
+
+/* GET passagemlist page. */
+router.get('/passagemlist', function(req, res) {
+  var db = require("../db");
+  var Users = db.Mongoose.model('passagemcollection', db.UserSchema1, 'passagemcollection');
+  Users.find({}).lean().exec(
+     function (e, docs) {
+         res.render('passagemlist', { "passagemlist": docs });
+     });
+});
+/* GET empresalist page. */
+router.get('/empresalist', function(req, res) {
+  var db = require("../db");
+  var Users = db.Mongoose.model('empresacollection', db.UserSchema2, 'empresacollection');
+  Users.find({}).lean().exec(
+     function (e, docs) {
+         res.render('empresalist', { "empresalist": docs });
+     });
+});
+
 /* GET newuser page. */
 router.get('/addFuncionario', function (req, res, next) {
   res.render('addFuncionario', { title: 'Novo Funcionário' });
@@ -36,16 +104,15 @@ router.get('/addFuncionario', function (req, res, next) {
 router.post('/addfuncionario', function (req, res) {
   
   var db = require("../db");
-  var nomeFuncionario = req.body.funcionarioNome;
+  var nomeFunc = req.body.funcionarioNome;
   var cpfFuncionario = req.body.funcionarioCPF;
   var cargoFuncionario = req.body.funcionarioCargo;
   var enderecoFuncionario = req.body.funcionarioEndereco;
   var telefoneFuncionario = req.body.funcionarioTelefone;
   
-  
   var Funcionarios = db.Mongoose.model('usercollection', db.UserSchema, 'usercollection');
   
-  var fun = new Funcionarios({ nomeFuncionario: nomeFuncionario, cpf: cpfFuncionario, cargo: cargoFuncionario, telefone: telefoneFuncionario, endereco: enderecoFuncionario });
+  var fun = new Funcionarios({ nomeFuncionario: nomeFunc, cpf: cpfFuncionario, cargo: cargoFuncionario, telefone: telefoneFuncionario, endereco: enderecoFuncionario });
   fun.save(function (err) {
       if (err) {
           console.log("Error! " + err.message);
@@ -133,4 +200,511 @@ router.post('/atualizafuncionario', function (req, res) {
   });
 });
 
+/* ------------------------------------------ ONIBUS ------------------------------------------*/
+
+/* GET funcionario page. */
+router.get('/addOnibus', function (req, res, next) {
+  res.render('addOnibus', { title: 'Novo Ônibus' });
+});
+
+// POST to Add Onibus Service 
+router.post('/addonibus', function (req, res) {
+  
+  var db = require("../db");
+  var codigoOnibus = req.body.onibusCodigo;
+  var anoOnibus = req.body.onibusAno;
+  var modeloOnibus = req.body.onibusModelo;
+  var lugaresOnibus = req.body.onibusLugares;
+  
+  
+  var Onibus = db.Mongoose.model('onibuscollection', db.OnibusSchema, 'onibuscollection');
+  
+  var oni = new Onibus({ codigo: codigoOnibus, ano: anoOnibus, modelo: modeloOnibus, lugares: lugaresOnibus});
+  oni.save(function (err) {
+      if (err) {
+          console.log("Error! " + err.message);
+          return err;
+      }
+      else {
+          console.log("Post saved");
+          res.redirect("onibuslist");
+      }
+  });
+});
+
+/* GET search onibus. */
+router.get('/consultaOnibus', function (req, res, next) {
+  res.render('consultaOnibus', { title: 'Consulta Ônibus' });
+});
+
+/* GET clientlist page. */
+router.post('/retornoonibus', function(req, res) {
+  var db = require("../db");
+
+  var codigoOnibus = req.body.onibusCodigo;
+
+  var Onibus = db.Mongoose.model('onibuscollection', db.OnibusSchema, 'onibuscollection');
+  Onibus.find({codigo: codigoOnibus}).lean().exec(
+     function (e, docs) {
+         res.render('retornoonibus', { "retornoonibus": docs });
+     });
+});
+
+/* GET uptade Onibus. */
+router.get('/atualizaOnibus', function (req, res, next) {
+  res.render('atualizaOnibus', { title: 'Atualiza Ônibus' });
+});
+
+/* POST to Atualizar Onibus */
+router.post('/atualizaonibus', function (req, res) {
+
+  var db = require("../db");
+  var codigoOnibus = req.body.onibusCodigo;
+
+  var novoCodigoOnibus = req.body.newCodigo;
+  var novoAnoOnibus = req.body.newAno;
+  var novoModeloOnibus = req.body.newModelo;
+  var novoLugaresOnibus = req.body.newLugares;
+
+  
+  var Onibus = db.Mongoose.model('onibuscollection', db.OnibusSchema, 'onibuscollection');
+  Onibus.update({ codigo: codigoOnibus },{ codigo: novoCodigoOnibus, ano: novoAnoOnibus, modelo: novoModeloOnibus, lugares: novoLugaresOnibus},function (err) {
+    if (err) {
+        console.log("Error! " + err.message);
+        return err;
+    }
+    else {
+        console.log("Updated");
+        res.redirect("onibuslist");
+    }
+  });
+});
+
+/* GET deleta Onibus. */
+router.get('/removeOnibus', function (req, res, next) {
+  res.render('removeOnibus', { title: 'Remove Ônibus' });
+});
+
+/* POST to Remover Onibus */
+router.post('/removeonibus', function (req, res) {
+
+  var db = require("../db");
+  var codigoOnibus = req.body.onibusCodigo;
+
+  
+  var Onibus = db.Mongoose.model('onibuscollection', db.OnibusSchema, 'onibuscollection');
+  Onibus.remove({codigo: codigoOnibus}, function (err) {
+      if (err) {
+          console.log("Error! " + err.message);
+          return err;
+      }
+      else {
+          console.log("Post deleted");
+          res.redirect("onibuslist");
+      }
+  });
+});
+
+/* ------------------------------------------ ROTAS ------------------------------------------*/
+/* GET rota page. */
+router.get('/addRota', function (req, res, next) {
+  res.render('addRota', { title: 'Nova Rota' });
+});
+
+// POST to Add Rota Service 
+router.post('/addrota', function (req, res) {
+  
+  var db = require("../db");
+  var codigoRota = req.body.rotaCodigo;
+  var origemRota = req.body.rotaOrigem;
+  var destinoRota = req.body.rotaDestino;
+  var duracaoRota = req.body.rotaDuracao;
+  var distanciaRota = req.body.rotaDistancia;
+  var partidaRota = req.body.rotaPartida;
+  var chegadaRota = req.body.rotaChegada;
+  var diasRota = req.body.rotaDias;
+  
+  
+  var Rota = db.Mongoose.model('rotacollection', db.RotaSchema, 'rotacollection');
+  
+  var ro = new Rota({ codigo: codigoRota, origem: origemRota, destino: destinoRota, duracao: duracaoRota, distancia: distanciaRota, horaPartida: partidaRota, horaChegada: chegadaRota, dias: diasRota});
+  ro.save(function (err) {
+      if (err) {
+          console.log("Error! " + err.message);
+          return err;
+      }
+      else {
+          console.log("Post saved");
+          res.redirect("rotalist");
+      }
+  });
+});
+
+/* GET search Rota. */
+router.get('/consultaRota', function (req, res, next) {
+  res.render('consultaRota', { title: 'Consulta Rota' });
+});
+
+/* GET clientlist page. */
+router.post('/rotalist', function(req, res) {
+  var db = require("../db");
+
+  var codigoRota = req.body.rotaCodigo;
+
+  var Rota = db.Mongoose.model('rotacollection', db.RotaSchema, 'rotacollection');
+  Rota.find({codigo: codigoRota}).lean().exec(
+     function (e, docs) {
+         res.render('rotalist', { "rotalist": docs });
+     });
+});
+
+/* GET uptade Rota. */
+router.get('/atualizaRota', function (req, res, next) {
+  res.render('atualizaRota', { title: 'Atualiza Rota' });
+});
+/* POST to Atualizar Rota */
+router.post('/atualizarota', function (req, res) {
+
+  var db = require("../db");
+  var codigoRota = req.body.rotaCodigo;
+
+  var novoCodigoRota = req.body.newCodigo;
+  var novoOrigemRota = req.body.newOrigem;
+  var novoDestinoRota = req.body.newDestino;
+  var novoDuracaoRota = req.body.newDuracao;
+  var novoDistanciaRota = req.body.newDistancia;
+  var novoPartidaRota = req.body.newPartida;
+  var novoChegadaRota = req.body.newChegada;
+  var novoDiasRota = req.body.newDias;
+
+  
+  var Rota = db.Mongoose.model('rotacollection', db.RotaSchema, 'rotacollection');
+  Rota.update({ codigo: codigoRota },{ codigo: novoCodigoRota, origem: novoOrigemRota, destino: novoDestinoRota, duracao: novoDuracaoRota, distancia: novoDistanciaRota, horaPartida: novoPartidaRota, horaChegada: novoChegadaRota, dias: novoDiasRota},function (err) {
+    if (err) {
+        console.log("Error! " + err.message);
+        return err;
+    }
+    else {
+        console.log("Updated");
+        res.redirect("rotalist");
+    }
+  });
+});
+
+/* GET deleta Rota. */
+router.get('/removeRota', function (req, res, next) {
+  res.render('removeRota', { title: 'Remove Rota' });
+});
+
+/* POST to Remover Onibus */
+router.post('/removerota', function (req, res) {
+
+  var db = require("../db");
+  var codigoRota = req.body.rotaCodigo;
+
+  var origemRemocao = null;
+  var destinoRemocao = null;  
+
+  var Rota = db.Mongoose.model('rotacollection', db.RotaSchema, 'rotacollection');
+  Rota.find({codigo: codigoRota}).lean().exec(
+    function (e, docs) {
+        
+
+        docs.forEach(element => {
+          origemRemocao = element.origem;
+          destinoRemocao = element.destino;
+
+          var Pass = db.Mongoose.model('passagemcollection', db.UserSchema1, 'passagemcollection');
+
+          console.log(origemRemocao);
+
+          Pass.find({origem: origemRemocao, destino: destinoRemocao}).lean().exec(
+            function (e, docs) {
+              foiCriada = false;
+              docs.forEach(element => {
+                if(element != null)
+                {
+                  foiCriada = true;
+                  console.log(element);
+                  res.redirect("verificaPassagem");
+                }
+            });
+            if(foiCriada == false)
+            {
+              Rota.remove({codigo: codigoRota}, function (err) {
+                if (err) {
+                    console.log("Error! " + err.message);
+                    return err;
+                }
+                else {
+                    console.log("Post deleted");
+                    res.redirect("rotalist");
+                }
+              });
+            }  
+        });
+        
+      });
+        
+    });
+  
+  
+    
+  
+});
+
+/* ------------------------------------------ PASSAGEM ------------------------------------------*/
+
+/* GET adiciona Passagem. */
+router.get('/addPassagem', function (req, res, next) {
+  res.render('addPassagem', { title: 'Adicionar Passagem' });
+});
+
+/* POST adiciona Passagem */
+router.post('/addpassagem', function (req, res) {
+
+  var db = require("../db");
+  var cpfPassagem = req.body.passagemCPF;
+  var nomePassagem = req.body.passagemNome;
+  var origemPassagem = req.body.passagemOrigem;
+  var destinoPassagem = req.body.passagemDestino;
+  var dataPassagem = req.body.passagemData;
+  var horarioPassagem = req.body.passagemHorario;
+  var precoPassagem = req.body.passagemPreco;
+  var codigoPassagem = req.body.passagemCodigo;
+
+  
+  
+  var Passagens = db.Mongoose.model('passagemcollection', db.UserSchema1, 'passagemcollection');
+  var pas = new Passagens({ cpf: cpfPassagem, nome: nomePassagem, origem: origemPassagem, destino: destinoPassagem, data: dataPassagem,horario: horarioPassagem, 
+  preco: precoPassagem,codigo: codigoPassagem});
+
+  pas.save(function (err) {
+      if (err) {
+          console.log("Error! " + err.message);
+          return err;
+      }
+      else {
+          console.log("Post saved");
+          res.redirect("passagemlist");
+      }
+  });
+});
+
+/* GET atualiza Passagem. */
+router.get('/atualizaPassagem', function (req, res, next) {
+  res.render('atualizaPassagem', { title: 'Atualizar Passagem' });
+});
+
+/* POST atualizar Passagem */
+router.post('/atualizapassagem', function (req, res) {
+
+ var db = require("../db");
+  var cpfPassagem = req.body.passagemNovoCPF;
+  var nomePassagem = req.body.passagemNovoNome;
+  var origemPassagem = req.body.passagemNovaOrigem;
+  var destinoPassagem = req.body.passagemNovoDestino;
+  var dataPassagem = req.body.passagemNovaData;
+  var horarioPassagem = req.body.passagemNovoHorario;
+  var precoPassagem = req.body.passagemNovoPreco;
+  var codigoPassagem = req.body.passagemNovoCodigo;
+
+
+  var Passagens = db.Mongoose.model('passagemcollection', db.UserSchema1, 'passagemcollection');
+  
+  Passagens.update({ cpf: cpfPassagem },{nome: nomePassagem, origem: origemPassagem, destino: destinoPassagem, data: dataPassagem,horario: horarioPassagem, 
+  preco: precoPassagem,codigo: codigoPassagem},function (err) {
+    if (err) {
+        console.log("Error! " + err.message);
+        return err;
+    }
+    else {
+        console.log("Updated");
+        res.redirect("passagemlist");
+    }
+  });
+});
+
+
+
+/* GET remove Passagem. */
+router.get('/removePassagem', function (req, res, next) {
+  res.render('removePassagem', { title: 'Remover Passagem' });
+});
+
+/* POST remove Passagem. */
+router.post('/removepassagem', function (req, res) {
+
+  var db = require("../db");
+  var cpfPassagem = req.body.passagemNovoCPF;
+
+
+  var Passagens = db.Mongoose.model('passagemcollection', db.UserSchema1, 'passagemcollection');
+  Passagens.find({cpf: cpfPassagem}).lean().exec(
+    function (e, docs) {
+        docs.forEach(element => {
+          dataPass = element.data;
+
+          console.log(dataPass);
+
+          dataAtual = new Date();
+          dataPass = new Date(dataPass);
+
+            if(dataPass < dataAtual)
+            {
+              res.redirect("verificaData");
+            }
+            else
+            {
+              Passagens.remove({cpf: cpfPassagem}, function (err) {
+                if (err) {
+                    console.log("Error! " + err.message);
+                    return err;
+                }
+                else {
+                    console.log("Post deleted");
+                    res.redirect("passagemlist");
+                }
+              });
+            }
+        });
+    }  
+  ); 
+});
+  
+
+
+/* GET consulta Passagem. */
+router.get('/consultaPassagem', function (req, res, next) {
+  res.render('consultaPassagem', { title: 'Consultar Passagem' });
+});
+
+/* POST consulta Passagem. */
+router.post('/consultapassagem', function(req, res) {
+  var db = require("../db");
+
+
+ var cpfPassagem = req.body.passagemCPF;
+
+  var Passagens = db.Mongoose.model('passagemcollection', db.UserSchema1, 'passagemcollection');
+  Passagens.find({cpf: cpfPassagem}).lean().exec(
+     function (e, docs) {
+         res.render('passagemlist', { "passagemlist": docs });
+     });
+});
+
+
+/* ------------------------------------------ EMPRESA ------------------------------------------*/
+
+/* GET adiciona Empresa. */
+router.get('/addEmpresa', function (req, res, next) {
+  res.render('addEmpresa', { title: 'Cadastrar Empresa' });
+});
+
+/* POST adiciona Empresa */
+router.post('/addempresa', function (req, res) {
+
+  var db = require("../db");
+  var cnpjEmpresa = req.body.empresaCNPJ;
+  var nomeEmpresa = req.body.empresaNome;
+ 
+
+  var Empresas = db.Mongoose.model('empresacollection', db.UserSchema2, 'empresacollection');
+  var emp = new Empresas({ cnpj: cnpjEmpresa, nome: nomeEmpresa});
+
+  emp.save(function (err) {
+      if (err) {
+          console.log("Error! " + err.message);
+          return err;
+      }
+      else {
+          console.log("Post saved");
+          res.redirect("empresalist");
+      }
+  });
+});
+
+/* GET atualiza Empresa. */
+router.get('/atualizaEmpresa', function (req, res, next) {
+  res.render('atualizaEmpresa', { title: 'Atualizar Empresa' });
+});
+
+/* POST atualizar Empresa */
+router.post('/atualizaempresa', function (req, res) {
+
+ var db = require("../db");
+  
+  var novoCNPJEmpresa = req.body.empresaNovoCNPJ;
+  var novoNomeEmpresa = req.body.empresaNovoNome;
+  var cnpjEmpresa = req.body.empresaCNPJ;
+  var nomeEmpresa = req.body.empresaNome;
+
+
+  var Empresas = db.Mongoose.model('empresacollection', db.UserSchema2, 'empresacollection');
+  
+  Empresas.update({ cnpj: cnpjEmpresa,nome:nomeEmpresa },{ cnpj: novoCNPJEmpresa,nome:novoNomeEmpresa },function (err) {
+    if (err) {
+        console.log("Error! " + err.message);
+        return err;
+    }
+    else {
+        console.log("Updated");
+        res.redirect("empresalist");
+    }
+  });
+});
+
+
+/* GET remove Empresa. */
+router.get('/removeEmpresa', function (req, res, next) {
+  res.render('removeEmpresa', { title: 'Remover Empresa' });
+});
+
+/* POST remove Empresa. */
+router.post('/removeempresa', function (req, res) {
+
+  var db = require("../db");
+  var cnpjEmpresa = req.body.empresaCNPJ;
+
+
+  var Empresas = db.Mongoose.model('empresacollection', db.UserSchema2, 'empresacollection');
+  Empresas.remove({cnpj: cnpjEmpresa}, function (err) {
+      if (err) {
+          console.log("Error! " + err.message);
+          return err;
+      }
+      else {
+          console.log("Post deleted");
+          res.redirect("empresalist");
+      }
+  });
+});
+
+
+/* GET consulta Empresa. */
+router.get('/consultaEmpresa', function (req, res, next) {
+  res.render('consultaEmpresa', { title: 'Consultar Empresa' });
+});
+
+/* POST consulta Empresa. */
+router.post('/consultaempresa', function(req, res) {
+  var db = require("../db");
+
+
+ var cnpjEmpresa = req.body.empresaCNPJ;
+
+  var Empresas = db.Mongoose.model('empresacollection', db.UserSchema2, 'empresacollection');
+  Empresas.find({cnpj:cnpjEmpresa}).lean().exec(
+     function (e, docs) {
+         res.render('empresalist', { "empresalist": docs });
+     });
+});
+
 module.exports = router;
+
+/*
+cod da rota para remover
+faz essa pesquisa e guarda a origem e o destino dela
+pesquisa a passagem que tem esse origem e destino
+
+*/

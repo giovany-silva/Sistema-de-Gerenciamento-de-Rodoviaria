@@ -2,12 +2,24 @@
 <html>
   <head>
     <nav class="navbar navbar-dark bg-primary">
-        <button action="/"  method="get" type="submit" class="btn btn-link-dark">Home</button>
+      <form action = "/" class="btn btn-link-dark">
+        <button type="submit" class="btn btn-link-dark">Home</button>
+      </form>
+      <form action = "/funcionario" class="btn btn-link-dark">
         <button type="submit" class="btn btn-link-dark">Funcionários</button>
+      </form>
+      <form action = "/passagem" class="btn btn-link-dark">
         <button type="submit" class="btn btn-link-dark">Passagem</button>
+      </form>
+      <form action = "/onibus" class="btn btn-link-dark">  
         <button type="submit" class="btn btn-link-dark">Ônibus</button>
+      </form>
+      <form action = "/empresas" class="btn btn-link-dark">
         <button type="submit" class="btn btn-link-dark">Empresas</button>
+      </form>
+      <form action = "/rotas" class="btn btn-link-dark">
         <button type="submit" class="btn btn-link-dark">Rotas</button>
+      </form>
       </nav>
 
     <meta name="viewport" content="width=device-width">
@@ -30,8 +42,11 @@
     <input type="text" class="form-control"name="newCPF" placeholder="Digite o novo CPF">
   </div>
   <div class="col-md-6">
-    <label for="inputEmail4" class="form-label">Novo Cargo</label>
-    <input type="text" class="form-control"name="newCargo" placeholder="Digite o novo Cargo">
+    <label for="funcionarioCargo" class="form-label">Novo Cargo </label>
+    <select name="newCargo" class="form-control">
+      <option value="Gerente" >Gerente</option>
+      <option value="Balconista" selected>Balconista</option>
+   </select>
   </div>
   <div class="col-md-6">
     <label for="inputEmail4" class="form-label">Novo Telefone</label>
