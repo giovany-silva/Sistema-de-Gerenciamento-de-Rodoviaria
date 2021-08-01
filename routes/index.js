@@ -1,24 +1,21 @@
 var express = require('express');
 var router = express.Router();
 
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-/* GET home page. */
+/* GET menu. */
 router.get('/menu', function(req, res, next) {
   res.render('menu');
 });
 
-/* GET home page. */
+/* GET funcionario. */
 router.get('/funcionario', function(req, res, next) {
   res.render('funcionario');
 });
 
-<<<<<<< Updated upstream
-=======
 /* GET verificaPassagem. */
 router.get('/verificaPassagem', function(req, res, next) {
   res.render('verificaPassagem');
@@ -37,6 +34,21 @@ router.get('/verificaOnibus', function(req, res, next) {
 /* GET verificaPassagem. */
 router.get('/verificaCNPJ', function(req, res, next) {
   res.render('verificaCNPJ');
+});
+
+/* GET verificaPassagem. */
+router.get('/relatorioEmpresa', function(req, res, next) {
+  res.render('relatorioEmpresa');
+});
+
+/* GET verificaPassagem. */
+router.get('/relatorioRotaDia', function(req, res, next) {
+  res.render('relatorioRotaDia');
+});
+
+/* GET verificaPassagem. */
+router.get('/RelatorioPassagem', function(req, res, next) {
+  res.render('RelatorioPassagem');
 });
 
 /* GET onibus. */
@@ -59,7 +71,6 @@ router.get('/empresas', function(req, res, next) {
   res.render('empresas');
 });
 
->>>>>>> Stashed changes
 /* GET userlist page. */
 router.get('/funcionariolist', function(req, res) {
     var db = require("../db");
@@ -68,6 +79,65 @@ router.get('/funcionariolist', function(req, res) {
        function (e, docs) {
            res.render('funcionariolist', { "funcionariolist": docs });
        });
+});
+
+/* GET onibuslist page. */
+router.get('/onibuslist', function(req, res) {
+  var db = require("../db");
+  var Oni = db.Mongoose.model('onibuscollection', db.OnibusSchema, 'onibuscollection');
+  Oni.find({}).lean().exec(
+     function (e, docs) {
+         res.render('onibuslist', { "onibuslist": docs });
+     });
+});
+
+/* GET rotalist page. */
+router.get('/rotalist', function(req, res) {
+  var db = require("../db");
+  var Rota = db.Mongoose.model('rotacollection', db.RotaSchema, 'rotacollection');
+  Rota.find({}).lean().exec(
+     function (e, docs) {
+         res.render('rotalist', { "rotalist": docs });
+     });
+});
+
+/* GET passagemlist page. */
+router.get('/passagemlist', function(req, res) {
+  var db = require("../db");
+  var Users = db.Mongoose.model('passagemcollection', db.UserSchema1, 'passagemcollection');
+  Users.find({}).lean().exec(
+     function (e, docs) {
+         res.render('passagemlist', { "passagemlist": docs });
+     });
+});
+/* GET empresalist page. */
+router.get('/empresalist', function(req, res) {
+  var db = require("../db");
+  var Users = db.Mongoose.model('empresacollection', db.UserSchema2, 'empresacollection');
+  Users.find({}).lean().exec(
+     function (e, docs) {
+         res.render('empresalist', { "empresalist": docs });
+     });
+});
+
+/* GET empresalist page. */
+router.get('/relatorioPassagemList', function(req, res) {
+  var db = require("../db");
+  var Users = db.Mongoose.model('passagemcollection', db.UserSchema1, 'passagemcollection');
+  Users.find({}).lean().exec(
+     function (e, docs) {
+         res.render('relatorioPassagemList', { "relatorioPassagemList": docs });
+     });
+});
+
+/* GET onibuslist page. */
+router.get('/relatorioEmpresa', function(req, res) {
+  var db = require("../db");
+  var Oni = db.Mongoose.model('onibuscollection', db.OnibusSchema, 'onibuscollection');
+  Oni.find({}).lean().exec(
+     function (e, docs) {
+         res.render('relatorioEmpresa', { "relatorioEmpresa": docs });
+     });
 });
 
 /* GET newuser page. */
@@ -79,16 +149,15 @@ router.get('/addFuncionario', function (req, res, next) {
 router.post('/addfuncionario', function (req, res) {
   
   var db = require("../db");
-  var nomeFuncionario = req.body.funcionarioNome;
+  var nomeFunc = req.body.funcionarioNome;
   var cpfFuncionario = req.body.funcionarioCPF;
   var cargoFuncionario = req.body.funcionarioCargo;
   var enderecoFuncionario = req.body.funcionarioEndereco;
   var telefoneFuncionario = req.body.funcionarioTelefone;
   
-  
   var Funcionarios = db.Mongoose.model('usercollection', db.UserSchema, 'usercollection');
   
-  var fun = new Funcionarios({ nomeFuncionario: nomeFuncionario, cpf: cpfFuncionario, cargo: cargoFuncionario, telefone: telefoneFuncionario, endereco: enderecoFuncionario });
+  var fun = new Funcionarios({ nomeFuncionario: nomeFunc, cpf: cpfFuncionario, cargo: cargoFuncionario, telefone: telefoneFuncionario, endereco: enderecoFuncionario });
   fun.save(function (err) {
       if (err) {
           console.log("Error! " + err.message);
@@ -176,9 +245,6 @@ router.post('/atualizafuncionario', function (req, res) {
   });
 });
 
-<<<<<<< Updated upstream
-module.exports = router;
-=======
 /* ------------------------------------------ ONIBUS ------------------------------------------*/
 
 /* GET funcionario page. */
@@ -247,7 +313,7 @@ router.post('/retornoonibus', function(req, res) {
   var Onibus = db.Mongoose.model('onibuscollection', db.OnibusSchema, 'onibuscollection');
   Onibus.find({codigo: codigoOnibus}).lean().exec(
      function (e, docs) {
-         res.render('retornoonibus', { "retornoonibus": docs });
+         res.render('onibuslist', { "onibuslist": docs });
      });
 });
 
@@ -448,9 +514,6 @@ router.post('/removerota', function (req, res) {
       });
         
     });
-  
-  
-    
   
 });
 
@@ -667,19 +730,7 @@ router.post('/removeempresa', function (req, res) {
   var db = require("../db");
   var cnpjEmpresa = req.body.empresaCNPJ;
 
-  /*var Empresas = db.Mongoose.model('empresacollection', db.UserSchema2, 'empresacollection');
-  Empresas.remove({cnpj: cnpjEmpresa}, function (err) {
-  if (err) {
-    console.log("Error! " + err.message);
-    return err;
-  }
-  else {
-      console.log("Post deleted");
-      res.redirect("empresalist");
-      }
-  });
-});
-*/
+
   var Oni = db.Mongoose.model('onibuscollection', db.OnibusSchema, 'onibuscollection');
   Oni.find({cnpj: cnpjEmpresa}).lean().exec(
     function (e, docs) {
@@ -715,7 +766,6 @@ router.post('/removeempresa', function (req, res) {
     ); 
 });
 
-
 /* GET consulta Empresa. */
 router.get('/consultaEmpresa', function (req, res, next) {
   res.render('consultaEmpresa', { title: 'Consultar Empresa' });
@@ -734,5 +784,70 @@ router.post('/consultaempresa', function(req, res) {
      });
 });
 
+ /*GET relatório onibus por Empresa.*/ 
+router.get('/relatorioEmpresa', function (req, res, next) {
+  res.render('relatorioEmpresa', { title: 'Relatórios de Ônibus por Empresa' });
+});
+
+/* POST relatório onibus por Empresa.*/ 
+router.post('/relatorioempresa', function(req, res) {
+  var db = require("../db");
+
+  var cnpjEmpresa = req.body.empresaCNPJ;
+
+  var Empresas = db.Mongoose.model('empresacollection', db.UserSchema2, 'empresacollection');
+  Empresas.find({cnpj: cnpjEmpresa}).lean().exec(
+     function (e, docs) {
+      docs.forEach(element => {
+        if(element != null)
+        {
+          var Onibus = db.Mongoose.model('onibuscollection', db.OnibusSchema, 'onibuscollection');
+          Onibus.find({cnpj: cnpjEmpresa}).lean().exec(
+          function (e, docs) {
+            res.render('retornoonibus', { "retornoonibus": docs });
+          });
+        }
+      });
+     });
+});
+
+/*GET relatório de rotas por dia.*/ 
+router.get('/relatorioRotaDia', function (req, res, next) {
+  res.render('relatorioRotaDia', { title: 'Relatórios de Rotas do Dia' });
+});
+
+/* POST relatório de rotas por dia.*/ 
+router.post('/relatoriorotadia', function(req, res) {
+  var db = require("../db");
+
+  var diaRota = req.body.rotaDias;
+  console.log(diaRota);
+  
+  var Rota = db.Mongoose.model('rotacollection', db.RotaSchema, 'rotacollection');
+  Rota.find({dias: diaRota}).lean().exec(
+    function (e, docs) {
+      res.render('rotalist', { "rotalist": docs });
+  });
+});
+
+/* GET relatorio Passagem. */
+router.get('/relatorioPassagem', function(req, res, next) {
+  res.render('RelatorioPassagem');
+});
+
+/* POST relatorio Passagem */
+router.post('/relatoriopassagem', function(req, res) {
+  var db = require("../db");
+
+  var dataIni = req.body.DataIni;
+  var dataFim = req.body.DataFim;
+  
+
+  var Passagem = db.Mongoose.model('passagemcollection', db.UserSchema1, 'passagemcollection');
+  Passagem.find({  data: { $gte : dataIni, $lte: dataFim}}).lean().exec(
+    function (e, docs) {
+      res.render('relatorioPassagemList', { "relatorioPassagemList": docs });
+  });
+});
+
 module.exports = router;
->>>>>>> Stashed changes

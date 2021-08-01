@@ -2,13 +2,25 @@
 <html>
   <head>
     <nav class="navbar navbar-dark bg-primary">
-        <button action="/"  method="get" type="submit" class="btn btn-link-dark">Home</button>
+      <form action = "/menu" class="btn btn-link-dark">
+        <button type="submit" class="btn btn-link-dark">Home</button>
+      </form>
+      <form action = "/funcionario" class="btn btn-link-dark">
         <button type="submit" class="btn btn-link-dark">Funcionários</button>
+      </form>
+      <form action = "/passagem" class="btn btn-link-dark">
         <button type="submit" class="btn btn-link-dark">Passagem</button>
+      </form>
+      <form action = "/onibus" class="btn btn-link-dark">  
         <button type="submit" class="btn btn-link-dark">Ônibus</button>
+      </form>
+      <form action = "/empresas" class="btn btn-link-dark">
         <button type="submit" class="btn btn-link-dark">Empresas</button>
+      </form>
+      <form action = "/rotas" class="btn btn-link-dark">
         <button type="submit" class="btn btn-link-dark">Rotas</button>
-      </nav>
+      </form>
+    </nav>
 
     <meta name="viewport" content="width=device-width">
     <title>Consultar Funcionário</title>
@@ -19,7 +31,7 @@
     <form action="/retornolist" class="row g-3" method="post">
   <div class="col-md-6">
     <label for="inputEmail4" class="form-label">CPF do Funcionário</label>
-    <input type="text" class="form-control" name="funcionarioCPF" placeholder="Digite o CPF">
+    <input type="text" maxlength=11  class="form-control" name="funcionarioCPF" placeholder="Digite o CPF (apenas dígitos)">
   </div>
   <div class="col-12">
     <button type="submit" class="btn btn-primary">Consultar</button>

@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/Release0');
+mongoose.connect('mongodb://localhost:27017/Rodoviaria_Fernando');
 
 var userSchema = new mongoose.Schema({
     nomeFuncionario: String,
@@ -10,9 +10,6 @@ var userSchema = new mongoose.Schema({
 }, { collection: 'usercollection' }
 );
 
-<<<<<<< Updated upstream
-module.exports = { Mongoose: mongoose, UserSchema: userSchema }
-=======
 var userSchema4 = new mongoose.Schema({
     codigo: String,
     ano: String,
@@ -53,4 +50,3 @@ var userSchema2 = new mongoose.Schema({
 );
 module.exports = { Mongoose: mongoose, UserSchema: userSchema, OnibusSchema: userSchema4, RotaSchema: userSchema3, UserSchema1: userSchema1, UserSchema2: userSchema2 }
 
->>>>>>> Stashed changes
