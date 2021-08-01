@@ -8,10 +8,18 @@
   </head>
   <body>
     <div class="d-grid gap-2">
-        <button action="/addFuncionario" method="get" type="submit" class="btn btn-warning btn-lg btn-block">Cadastrar</button>
-        <button action="/atualizaFuncionario" method="get" type="submit" class="btn btn-primary btn-lg btn-block">Alterar</button>
-        <button action="/consultaFuncionario" method="get" type="submit" class="btn btn-danger btn-lg btn-block">Consultar</button>
-        <button action="/removeFuncionario" method="get" type="submit" class="btn btn-success btn-lg btn-block">Remover</button>
+      <form action="/addFuncionario" class="btn btn-warning btn-lg btn-block">
+        <button  method="get" type="onclick" class="btn btn-warning btn-lg btn-block">Cadastrar</button>
+      </form>
+      <form action="/atualizaFuncionario" class="btn btn-primary btn-lg btn-block">
+        <button  method="get" type="submit" class="btn btn-primary btn-lg btn-block">Alterar</button>
+      </form>
+      <form action="/consultaFuncionario" class="btn btn-danger btn-lg btn-block">
+        <button  method="get" type="submit" class="btn btn-danger btn-lg btn-block">Consultar</button>
+      </form>
+      <form action="/removeFuncionario" class="btn btn-success btn-lg btn-block">
+        <button  method="get" type="submit" class="btn btn-success btn-lg btn-block">Remover</button>
+      </form>
     </div>
   </body>
   

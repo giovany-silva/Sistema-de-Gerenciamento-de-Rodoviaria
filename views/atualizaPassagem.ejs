@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <nav class="navbar navbar-dark bg-primary">
+	<form action="/menu" class="btn btn-link-dark">
+	        <button   type="submit" class="btn btn-link-dark">Home</button>
+	</form>
+	<form action ="/funcionario" class="btn btn-link-dark">
+        	<button type="submit" class="btn btn-link-dark">Funcionários</button>
+      	</form>
+	<form action="/passagem" class="btn btn-link-dark">
+        	<button type="submit" class="btn btn-link-dark">Passagem</button>
+	</form>
+	<form action="/onibus" class="btn btn-link-dark">
+	        <button type="submit" class="btn btn-link-dark">Ônibus</button>
+	</form>
+	<form action="/empresas" class="btn btn-link-dark">
+	        <button type="submit" class="btn btn-link-dark">Empresas</button>
+	</form>
+	<form action="/rotas" class="btn btn-link-dark">
+        	<button type="submit" class="btn btn-link-dark">Rotas</button>
+	</form>
+    </nav>
+    <script type="text/javascript" defer>
+      
+      window.onload = function(){
+        var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+
+today = mm + '/' + dd + '/' + yyyy;
+      
+       	const languagesList = {
+  		 a:(dd)+"/"+(mm)+"/"+yyyy,
+ 	 	b: (parseInt(dd) + 1) +"/"+(mm)+"/"+yyyy
+  		/*c: (data.getDay()+2)+"/"+(data.getMonth()+ 1)+"/"+data.getFullYear(),
+  		d: (data.getDay()+3)+"/"+(data.getMonth()+ 1)+"/"+data.getFullYear(),
+		e: (data.getDay()+4)+"/"+(data.getMonth()+ 1)+"/"+data.getFullYear(),
+		f: (data.getDay()+5)+"/"+(data.getMonth()+ 1)+"/"+data.getFullYear(),
+		g: (data.getDay()+6)+"/"+(data.getMonth()+ 1)+"/"+data.getFullYear()*/
+	};
+     
+	const passagemData = document.getElementById("passagemNovaData");
+	for(language in languagesList) {
+  		option = new Option(languagesList[language], languagesList[language]);
+  		passagemData.options[passagemData.options.length] = option;
+	}
+	passagemData.selectedIndex = 0
+      };
+
+
+     </script>
+    <meta name="viewport" content="width=device-width">
+    <title>Sistema Rodoviária</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <h1 class="text-center title-1"> Atualizar Passagem</h1>
+  </head>
+  <body>
+    <form action="/atualizapassagem" class="row g-3" method="post">
+  <div class="col-md-6">
+    <label for="inputEmail4" class="form-label">CPF do Passageiro</label>
+    <input type="text" maxlength=11 class="form-control"name="passagemNovoCPF" placeholder="Digite o CPF do Passageiro (apenas dígitos)">
+  </div>
+
+  <div class="col-md-6">
+    <label for="inputEmail4" class="form-label">Novo nome do Passageiro</label>
+    <input type="text" class="form-control"name="passagemNovoNome" placeholder="Digite o novo Nome do Passageiro">
+  </div>
+
+  <div class="col-md-6">
+    <label for="inputEmail4" class="form-label">Nova Origem</label>
+    <select name="passagemNovaOrigem" class="form-control">
+      <option value="Itajubá" >Itajubá</option>
+      <option value="Pouso Alegre" selected>Pouso Alegre</option>
+      <option value="Caxambu" >Caxambu</option>
+      <option value="São Lourenço" >São Lourenço</option>
+      <option value="São Paulo" >São Paulo</option>
+   </select>
+  </div>
+
+  <div class="col-md-6">
+    <label for="inputEmail4" class="form-label">Novo Destino</label>
+    <select name="passagemNovoDestino" class="form-control">
+      <option value="Itajubá" >Itajubá</option>
+      <option value="Pouso Alegre" selected>Pouso Alegre</option>
+      <option value="Caxambu" >Caxambu</option>
+      <option value="São Lourenço" >São Lourenço</option>
+      <option value="São Paulo" >São Paulo</option>
+   </select>
+  </div>
+
+  <div class="col-md-6">
+    <label for="passagemNovaData" class="form-label">Nova Data</label>
+    <select name="passagemNovaData" id="passagemNovaData" class="form-control">
+		
+    </select>
+    
+  </div>
+
+  <div class="col-md-6">
+    <label for="inputEmail4" class="form-label">Novo Horário</label>
+    <select name="passagemNovoHorario" class="form-control">
+      <option value="10:00" >10:00</option>
+      <option value="11:00" selected>11:00</option>
+      <option value="13:00">13:00</option>
+      <option value="15:00" >15:00</option>
+      <option value="21:00" >21:00</option>
+  </select>
+  </div>
+
+  <div class="col-md-6">
+    <label for="inputEmail4" class="form-label">Novo Preço</label>
+    <input type="text" class="form-control"name="passagemNovoPreco" placeholder="Digite o novo Preço">
+  </div>
+
+  <div class="col-md-6">
+    <label for="inputEmail4" class="form-label">Novo Código</label>
+    <input type="text" maxlength=3 class="form-control"name="passagemNovoCodigo" placeholder="Digite o novo Código (apenas dígitos)">
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Atualizar</button>
+  </div>
+</form>
+  </body>
+  
+</html>
